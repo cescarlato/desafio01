@@ -8,7 +8,9 @@ const projects = [];
 
 // Middleware que checa se existe o projeto
 function checkProject(req, res, next) {
-  if (!projects[req.params.id]) {
+  const { id } = req.params;
+  const project = projects.find(p => p.id === id);
+  if (!project) {
     return res.status(400).json({ error: "Project not found" });
   }
   return next();
@@ -47,9 +49,9 @@ server.get("/projects", (req, res) => {
 server.put("/projects/:id", checkProject, (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
-  // const project = projects.find(p => p.id === id);
-  projects[id].title = title;
-  return res.json(projects);
+  const project = projects.find(p => p.id === id);
+  project.title = title;
+  return res.json(project);
 });
 
 // DELETE /projects/:id
@@ -66,9 +68,9 @@ server.delete("/projects/:id", checkProject, (req, res) => {
 server.post("/projects/:id/tasks", checkProject, (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
-  // const project = projects.find(p => p.id === id);
-  projects[id].tasks.push(title);
-  return res.json(projects);
+  const project = projects.find(p => p.id === id);
+  project.tasks.push(title);
+  return res.json(project);
 });
 
 // Escuta porta localhost:3000
