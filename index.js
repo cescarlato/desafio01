@@ -66,9 +66,9 @@ server.delete("/projects/:id", checkProject, (req, res) => {
 server.post("/projects/:id/tasks", checkProject, (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
-  const project = projects.find(p => p.id === id);
-  project.tasks.push(title);
-  return res.json(project);
+  // const project = projects.find(p => p.id === id);
+  projects[id].tasks.push(title);
+  return res.json(projects);
 });
 
 // Escuta porta localhost:3000
